@@ -1,4 +1,4 @@
-# Design Patters powered by Kotlin
+# Design patters powered by Kotlin
 
 * [Factory](Factory.kt)
 * [Singleton](Singleton.kt)
