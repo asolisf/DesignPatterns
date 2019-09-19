@@ -1,5 +1,5 @@
-# Design Patters in Kotlin
+# Design Patters powered by Kotlin
 
-* Factory
-* Singleton
-* Chain of responsability
+* [Factory](Factory.kt)
+* [Singleton](Singleton.kt)
+* [Chain of responsability](ChainOfResponsabilityl.kt)
