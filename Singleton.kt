@@ -1,17 +1,28 @@
 package com.alansolisflores
 
 fun main(args: Array<String>) {
-    LoggerService.getInstance().Error("FATAL ERROR!")
+    LoggerService.getInstance().Error("LoggerService: Warning!")
 }
 
 class LoggerService private constructor() : ILogger{
 
     companion object{
         
-        private val instance = LoggerService()
+        private var INSTANCE: LoggerService? = null
 
         fun getInstance() : LoggerService{
-            return this.instance
+            val tmpInstance = INSTANCE
+
+            if(tmpInstance != null){
+                return tmpInstance
+            }
+            
+            //Thread safe
+            synchronized(this) { 
+                val instance = LoggerService()
+                INSTANCE = instance
+                return instance
+            }
         }
 
     }
