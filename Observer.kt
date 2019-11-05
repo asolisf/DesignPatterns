@@ -2,54 +2,58 @@ package com.alansolisflores
 
 fun main(args: Array<String>) {
     val publisher = DailyNews()
-    val consumer = Consumer(publisher)
+    val consumer1 = Consumer(publisher)
+    val consumer2 = Consumer(publisher)
+    val consumer3 = Consumer(publisher)
     publisher.Notify()
-    consumer.Dispose()
+    consumer1.Dispose()
+    consumer2.Dispose()
+    consumer3.Dispose()
 }
 
-public interface ISuscriber{
-    fun Listen(message: String)
+public interface ISubscriber{
+    fun MailBox(message: String)
     fun Dispose()
 }
 
 public interface IPublisher{
 
-    fun Suscribe(suscriber: ISuscriber)
-    fun UnSuscribe()
+    fun Subscribe(subscriber: ISubscriber)
+    fun UnSubscribe(subscriber: ISubscriber)
     fun Notify()
 }
 
 public class DailyNews : IPublisher{
 
-    private var suscriber: ISuscriber? = null
+    private var subscribers= mutableListOf<ISubscriber>()
 
-    override fun Suscribe(suscriber: ISuscriber){
-        this.suscriber = suscriber
+    override fun Subscribe(subscriber: ISubscriber){
+        this.subscribers.add(subscriber)
     }
 
-    override fun UnSuscribe(){
-        this.suscriber = null
+    override fun UnSubscribe(subscriber: ISubscriber){
+        this.subscribers.remove(subscriber)
     }
 
     override fun Notify(){
-        this.suscriber?.Listen("New magazine!")        
+        this.subscribers.forEach({it.MailBox("New magazine!")})
     }
 }
 
-public class Consumer : ISuscriber{
+public class Consumer : ISubscriber{
 
     private val publisher: DailyNews
 
     constructor(publisher: DailyNews){
         this.publisher = publisher
-        this.publisher.Suscribe(this)
+        this.publisher.Subscribe(this)
     }
 
-    override fun Listen(message: String){
+    override fun MailBox(message: String){
         println(message)
     }
 
     override fun Dispose(){
-        this.publisher.UnSuscribe()
+        this.publisher.UnSubscribe(this)
     }
 }
